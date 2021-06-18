@@ -1,0 +1,30 @@
+modLoader = "javafml"
+loaderVersion = "[32,)"
+issueTrackerURL = ""
+license = "MIT License"
+
+[[mods]]
+    modId = "knightfall"
+    version = "${file.jarVersion}"
+    logoFile = "logo.png"
+    itemIcon = "minecraft:wool"
+    authors = "DavigJ"
+    credits = "Thanks to Jsburg for code help, and GracefulLion/splet during code-testing."
+    displayName = "My Knight in Plummeting Armor"
+    description = '''
+    Heavier armor means greater fall damage. Value your knees in-game, and maybe you'll learn to in real life, eh?
+    '''
+
+[[dependencies.knightfall]]
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "[1.16.5,1.17)"
+    ordering = "NONE"
+    side = "BOTH"
+
+[[dependencies.knightfall]]
+    modId = "forge"
+    mandatory = true
+    versionRange = "[36.1.0,)"
+    ordering = "NONE"
+    side = "BOTH"
