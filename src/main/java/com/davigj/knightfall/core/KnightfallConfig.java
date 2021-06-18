@@ -33,6 +33,7 @@ public class KnightfallConfig {
         public final ForgeConfigSpec.ConfigValue<Double> logisticInflectionPoint;
         public final ForgeConfigSpec.ConfigValue<Double> horseDmgMult;
         public final ForgeConfigSpec.ConfigValue<Double> mobDmgMult;
+        public final ForgeConfigSpec.ConfigValue<Boolean> mobKnightfall;
 
         public Common(ForgeConfigSpec.Builder builder) {
             builder.comment("Armor").push("Armor Slot Multipliers");
@@ -66,6 +67,7 @@ public class KnightfallConfig {
             builder.push("Miscellaneous");
             this.gravity = builder.comment("Consider it a general multiplier for all base player fall damage. Default 1.0. " +
                     "\nSetting to 0 eliminates all fall damage entirely.").define("genericFallDamageMultiplier", 1.0);
+            this.mobKnightfall = builder.comment("Whether or not mobs take additional fall damage from the armor they're wearing.").define("mobFallDamage", true);
             this.mobDmgMult = builder.comment("Consider it a general multiplier for all base fall damage for mobs that can wear armor," +
                     "\nlike zombies and skeletons. Default 1.0.").define("mobFallDamageMultiplier", 1.0);
             this.debugMode = builder.comment("When activated, chat sends messages to players of their collective armor weight, \nand the amount the vanilla damage has been multiplied by, according to the magic formula." +

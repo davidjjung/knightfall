@@ -84,8 +84,8 @@ public class KnightfallEvents {
         Entity victim = event.getEntity();
         if (victim instanceof PlayerEntity) {
             calcFallDamageMultiplier(victim, event, KnightfallConfig.COMMON.gravity.get());
-        } else if (victim instanceof ZombieEntity || victim instanceof SkeletonEntity || victim instanceof WitherSkeletonEntity ||
-                victim instanceof ZombifiedPiglinEntity || victim instanceof PiglinEntity) {
+        } else if ((victim instanceof ZombieEntity || victim instanceof SkeletonEntity || victim instanceof WitherSkeletonEntity ||
+                victim instanceof ZombifiedPiglinEntity || victim instanceof PiglinEntity) && KnightfallConfig.COMMON.mobKnightfall.get()) {
             calcFallDamageMultiplier(victim, event, KnightfallConfig.COMMON.mobDmgMult.get());
             for (LivingEntity living : victim.world.getEntitiesWithinAABB(LivingEntity.class, victim.getBoundingBox().grow(5.0D, 12.0D, 5.0D))) {
                 if (KnightfallConfig.COMMON.debugMode.get()) {
