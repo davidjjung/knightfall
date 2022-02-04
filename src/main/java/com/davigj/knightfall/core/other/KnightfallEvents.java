@@ -90,7 +90,7 @@ public class KnightfallEvents {
             for (LivingEntity living : victim.level.getEntitiesOfClass(LivingEntity.class, victim.getBoundingBox().inflate(5.0D, 12.0D, 5.0D))) {
                 if (KnightfallConfig.COMMON.debugMode.get()) {
                     living.sendMessage(ITextComponent.nullToEmpty("Damage Multiplier: " + event.getDamageMultiplier()), living.getUUID());
-                    living.sendMessage(ITextComponent.nullToEmpty("Regsitry Name: " + victim.getType().getRegistryName().toString()), living.getUUID());
+                    living.sendMessage(ITextComponent.nullToEmpty("Registry Name: " + victim.getType().getRegistryName().toString()), living.getUUID());
                 }
             }
         }
