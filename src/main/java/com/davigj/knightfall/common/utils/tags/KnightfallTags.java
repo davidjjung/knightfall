@@ -17,6 +17,6 @@ public class KnightfallTags {
     }
 
     private static ITag.INamedTag<Item> modItemTag(String path) {
-        return ItemTags.makeWrapperTag(KnightfallMod.MOD_ID + ":" + path);
+        return ItemTags.bind(KnightfallMod.MOD_ID + ":" + path);
     }
 }

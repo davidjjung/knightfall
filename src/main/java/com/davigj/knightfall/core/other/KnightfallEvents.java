@@ -39,32 +39,32 @@ public class KnightfallEvents {
         Entity victim = event.getEntity();
         if (event.getSource() == DamageSource.FALL) {
             if (victim instanceof HorseEntity) {
-                Iterable<ItemStack> horseArmorList = victim.getArmorInventoryList();
+                Iterable<ItemStack> horseArmorList = victim.getArmorSlots();
                 double weight = 0;
                 for (ItemStack itemStack : horseArmorList) {
                     Item horseArmor = itemStack.getItem();
                     if (horseArmor instanceof HorseArmorItem) {
-                        for (LivingEntity living : victim.world.getEntitiesWithinAABB(LivingEntity.class, victim.getBoundingBox().grow(5.0D, 12.0D, 5.0D))) {
-                            living.sendMessage(ITextComponent.getTextComponentOrEmpty("Armor: " + Objects.requireNonNull(horseArmor.getRegistryName()).toString()), living.getUniqueID());
+                        for (LivingEntity living : victim.level.getEntitiesOfClass(LivingEntity.class, victim.getBoundingBox().inflate(5.0D, 12.0D, 5.0D))) {
+                            living.sendMessage(ITextComponent.nullToEmpty("Armor: " + Objects.requireNonNull(horseArmor.getRegistryName()).toString()), living.getUUID());
                         }
                         int armorTypes = 0;
-                        if (horseArmor.isIn(KnightfallTags.LIGHT_ARMOR)) {
+                        if (horseArmor.is(KnightfallTags.LIGHT_ARMOR)) {
                             weight = weight + KnightfallConfig.COMMON.lightArmor.get();
                             armorTypes++;
                         }
-                        if (horseArmor.isIn(KnightfallTags.MEDIUM_ARMOR)) {
+                        if (horseArmor.is(KnightfallTags.MEDIUM_ARMOR)) {
                             weight = weight + KnightfallConfig.COMMON.mediumArmor.get();
                             armorTypes++;
                         }
-                        if (horseArmor.isIn(KnightfallTags.HEAVY_ARMOR)) {
+                        if (horseArmor.is(KnightfallTags.HEAVY_ARMOR)) {
                             weight = weight + KnightfallConfig.COMMON.heavyArmor.get();
                             armorTypes++;
                         }
-                        if (horseArmor.isIn(KnightfallTags.VERY_HEAVY_ARMOR)) {
+                        if (horseArmor.is(KnightfallTags.VERY_HEAVY_ARMOR)) {
                             weight = weight + KnightfallConfig.COMMON.veryHeavyArmor.get();
                             armorTypes++;
                         }
-                        if (horseArmor.isIn(KnightfallTags.EXTRA_ARMOR)) {
+                        if (horseArmor.is(KnightfallTags.EXTRA_ARMOR)) {
                             weight = weight + KnightfallConfig.COMMON.extraArmor.get();
                             armorTypes++;
                         }
@@ -72,8 +72,8 @@ public class KnightfallEvents {
                     }
                 }
                 event.setAmount((float) (event.getAmount() + (weight * KnightfallConfig.COMMON.horseDmgMult.get())));
-                for (LivingEntity living : victim.world.getEntitiesWithinAABB(LivingEntity.class, victim.getBoundingBox().grow(5.0D, 12.0D, 5.0D))) {
-                    living.sendMessage(ITextComponent.getTextComponentOrEmpty("Damage: " + event.getAmount()), living.getUniqueID());
+                for (LivingEntity living : victim.level.getEntitiesOfClass(LivingEntity.class, victim.getBoundingBox().inflate(5.0D, 12.0D, 5.0D))) {
+                    living.sendMessage(ITextComponent.nullToEmpty("Damage: " + event.getAmount()), living.getUUID());
                 }
             }
         }
@@ -87,17 +87,17 @@ public class KnightfallEvents {
         } else if ((victim instanceof ZombieEntity || victim instanceof SkeletonEntity || victim instanceof WitherSkeletonEntity ||
                 victim instanceof ZombifiedPiglinEntity || victim instanceof PiglinEntity) && KnightfallConfig.COMMON.mobKnightfall.get()) {
             calcFallDamageMultiplier(victim, event, KnightfallConfig.COMMON.mobDmgMult.get());
-            for (LivingEntity living : victim.world.getEntitiesWithinAABB(LivingEntity.class, victim.getBoundingBox().grow(5.0D, 12.0D, 5.0D))) {
+            for (LivingEntity living : victim.level.getEntitiesOfClass(LivingEntity.class, victim.getBoundingBox().inflate(5.0D, 12.0D, 5.0D))) {
                 if (KnightfallConfig.COMMON.debugMode.get()) {
-                    living.sendMessage(ITextComponent.getTextComponentOrEmpty("Damage Multiplier: " + event.getDamageMultiplier()), living.getUniqueID());
-                    living.sendMessage(ITextComponent.getTextComponentOrEmpty("Regsitry Name: " + victim.getType().getRegistryName().toString()), living.getUniqueID());
+                    living.sendMessage(ITextComponent.nullToEmpty("Damage Multiplier: " + event.getDamageMultiplier()), living.getUUID());
+                    living.sendMessage(ITextComponent.nullToEmpty("Regsitry Name: " + victim.getType().getRegistryName().toString()), living.getUUID());
                 }
             }
         }
     }
 
     public static void calcFallDamageMultiplier(Entity victim, LivingFallEvent event, double gravity) {
-        Iterable<ItemStack> armorList = victim.getArmorInventoryList();
+        Iterable<ItemStack> armorList = victim.getArmorSlots();
         Iterator<ItemStack> armorPieces = armorList.iterator();
         double armorSlotBonus = 0;
         double totalArmorWeight = 0;
@@ -106,7 +106,7 @@ public class KnightfallEvents {
             if (armorPiece instanceof ArmorItem) {
                 int armorWeightTypes = 0;
                 double indivArmorWeight = 0;
-                switch (((ArmorItem) armorPiece).getEquipmentSlot()) {
+                switch (((ArmorItem) armorPiece).getSlot()) {
                     case HEAD:
                         armorSlotBonus = KnightfallConfig.COMMON.headSlotMult.get();
                         break;
@@ -120,23 +120,23 @@ public class KnightfallEvents {
                         armorSlotBonus = KnightfallConfig.COMMON.footSlotMult.get();
                         break;
                 }
-                if (armorPiece.isIn(KnightfallTags.LIGHT_ARMOR)) {
+                if (armorPiece.is(KnightfallTags.LIGHT_ARMOR)) {
                     indivArmorWeight = indivArmorWeight + KnightfallConfig.COMMON.lightArmor.get();
                     armorWeightTypes++;
                 }
-                if (armorPiece.isIn(KnightfallTags.MEDIUM_ARMOR)) {
+                if (armorPiece.is(KnightfallTags.MEDIUM_ARMOR)) {
                     indivArmorWeight = indivArmorWeight + KnightfallConfig.COMMON.mediumArmor.get();
                     armorWeightTypes++;
                 }
-                if (armorPiece.isIn(KnightfallTags.HEAVY_ARMOR)) {
+                if (armorPiece.is(KnightfallTags.HEAVY_ARMOR)) {
                     indivArmorWeight = indivArmorWeight + KnightfallConfig.COMMON.heavyArmor.get();
                     armorWeightTypes++;
                 }
-                if (armorPiece.isIn(KnightfallTags.VERY_HEAVY_ARMOR)) {
+                if (armorPiece.is(KnightfallTags.VERY_HEAVY_ARMOR)) {
                     indivArmorWeight = indivArmorWeight + KnightfallConfig.COMMON.veryHeavyArmor.get();
                     armorWeightTypes++;
                 }
-                if (armorPiece.isIn(KnightfallTags.EXTRA_ARMOR)) {
+                if (armorPiece.is(KnightfallTags.EXTRA_ARMOR)) {
                     indivArmorWeight = indivArmorWeight + KnightfallConfig.COMMON.extraArmor.get();
                     armorWeightTypes++;
                 }
@@ -153,8 +153,8 @@ public class KnightfallEvents {
                     + (Math.pow(2.7, (-1 * KnightfallConfig.COMMON.logisticSlope.get()) * (totalArmorWeight - KnightfallConfig.COMMON.logisticInflectionPoint.get())))))) * dmg * gravity));
         }
         if (KnightfallConfig.COMMON.debugMode.get() && victim instanceof PlayerEntity) {
-            victim.sendMessage(ITextComponent.getTextComponentOrEmpty("Armor Weight: " + totalArmorWeight), victim.getUniqueID());
-            victim.sendMessage(ITextComponent.getTextComponentOrEmpty("Damage Multiplier: " + event.getDamageMultiplier()), victim.getUniqueID());
+            victim.sendMessage(ITextComponent.nullToEmpty("Armor Weight: " + totalArmorWeight), victim.getUUID());
+            victim.sendMessage(ITextComponent.nullToEmpty("Damage Multiplier: " + event.getDamageMultiplier()), victim.getUUID());
         }
     }
 }
