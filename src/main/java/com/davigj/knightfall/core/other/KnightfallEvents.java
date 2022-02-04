@@ -31,8 +31,6 @@ public class KnightfallEvents {
 //    public static final ResourceLocation ZOMBIE = new ResourceLocation("minecraft", "zombie");
 //    public static final ResourceLocation PIGLIN = new ResourceLocation("minecraft", "piglin");
 //    public static final ResourceLocation ZOMBIFIED_PIGLIN = new ResourceLocation("minecraft", "zombified_piglin");
-//    public static final ResourceLocation SKELETON = new ResourceLocation("minecraft", "zombie");
-//    public static final ResourceLocation WITHER_SKELETON = new ResourceLocation("minecraft", "zombie");
 
     @SubscribeEvent
     public static void onFallDamage(LivingDamageEvent event) {
